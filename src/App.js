@@ -1,25 +1,50 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import logo from "./logo.svg";
+import Overview from "./components/overview";
+import "./App.css";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      tasks: [],
+      task: "",
+    };
+    this.addTask = this.addTask.bind(this);
+    this.updateTask = this.updateTask.bind(this);
+  }
+
+  addTask(e) {
+    e.preventDefault();
+    this.setState({
+      tasks: this.state.tasks.concat(this.state.task),
+      task: "",
+    });
+    console.log(this.state.tasks);
+  }
+
+  updateTask(e) {
+    console.log(e.target.value);
+    this.setState({
+      task: e.target.value,
+    });
+  }
+
+  render() {
+    return (
+      <div className="App">
+        <input
+          type="text"
+          value={this.state.task}
+          onChange={this.updateTask}
+        ></input>
+        <button onClick={this.addTask}>Add Task</button>
+        <div>
+          <Overview taskList={this.state.tasks} />
+        </div>
+      </div>
+    );
+  }
 }
 
 export default App;
